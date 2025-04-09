@@ -1,0 +1,20 @@
+#pragma once
+
+#include "sqlite3.h"
+
+struct SystemState
+{
+    int is_running;
+    int is_db_init;
+};
+
+typedef struct
+{
+    sqlite3 *persistent_db;
+    sqlite3 *memory_db;
+} DatabaseManager;
+
+extern volatile struct SystemState SYSTEM_STATE;
+extern DatabaseManager db;
+
+#define PATH_BUFFER_SIZE 512

@@ -1,0 +1,4 @@
+CREATE TABLE generalkv (
+    key TEXT PRIMARY KEY NOT NULL COLLATE BINARY, 
+    value TEXT,
+) WITHOUT ROWID; 

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageServer Documentation</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background-color: #f5f7fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        img.architecture {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.5rem;
+        }
+
+        .component-card {
+            background: white;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .volume-types {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .volume-type {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .volume-type h4 {
+            color: var(--secondary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-type h4::before {
+            content: "•";
+            color: var(--accent);
+            font-size: 2rem;
+            margin-right: 0.5rem;
+            line-height: 1;
+        }
+
+        code {
+            background: #f1f3f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d6336c;
+        }
+
+        pre {
+            background: #2b2d42;
+            color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            tab-size: 4;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .volume-types {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>ImageServer</h1>
+        <p class="tagline">A high-performance image processing and storage server</p>
+    </header>
+
+    <img src="assets/readme_principle.png" alt="ImageServer Architecture" class="architecture">
+
+    <section id="overview">
+        <h2>Overview</h2>
+        <p>The ImageServer is composed of the following components:</p>
+
+        <div class="component-card">
+            <h3>1. Dispatcher</h3>
+            <p>Handles client requests, dispatches tasks, and sends responses.</p>
+        </div>
+
+        <div class="component-card">
+            <h3>2. Volume</h3>
+            <p>Manages image persistence and storage.</p>
+        </div>
+
+        <div class="component-card">
+            <h3>3. Pipeline</h3>
+            <p>Defines image processing workflows.</p>
+        </div>
+
+        <div class="component-card">
+            <h3>4. Handlers</h3>
+            <p>Manages interactions between pipeline modules and volumes.</p>
+        </div>
+
+        <div class="component-card">
+            <h3>5. Database</h3>
+            <p>Stores and manages key-value pairs.</p>
+        </div>
+    </section>
+
+    <section id="dispatcher">
+        <h2>Dispatcher</h2>
+        <p>The Dispatcher serves as the main entry point for the ImageServer. It:</p>
+        <ul>
+            <li>Receives and initializes client requests</li>
+            <li>Distributes tasks to appropriate pipelines</li>
+            <li>Composes and sends responses after processing</li>
+        </ul>
+    </section>
+
+    <section id="volume">
+        <h2>Volume</h2>
+        <p>The server utilizes three types of volumes for image persistence and management:</p>
+
+        <div class="volume-types">
+            <div class="volume-type">
+                <h4>Persistent Volume (pVol)</h4>
+                <p>Disk-based storage with long-term persistence.</p>
+            </div>
+
+            <div class="volume-type">
+                <h4>Ephemeral Volume (eVol)</h4>
+                <p>Disk-based storage with fixed-size resources and volume-managed lifecycle.</p>
+            </div>
+
+            <div class="volume-type">
+                <h4>Memory Volume (mVol)</h4>
+                <p>RAM-based storage with behavior similar to ephemeral volume, but faster.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pipeline">
+        <h2>Pipeline</h2>
+        <p>Pipelines define image processing workflows and consist of multiple connected modules. Every pipeline must
+            contain:</p>
+
+        <h3>Head Module</h3>
+        <p>Receives requests and initializes connections.</p>
+
+        <h3>Tail Module</h3>
+        <p>Returns processed responses.</p>
+
+        <p>Intermediate modules perform specific tasks (e.g., watermarking, WebP compression).</p>
+
+        <h3>Module Specification</h3>
+        <p>Each module must define:</p>
+        <ul>
+            <li>Input (<code>ImageMeta</code>)</li>
+            <li>Output (<code>ImageMeta</code>)</li>
+            <li>Configuration parameters</li>
+        </ul>
+    </section>
+
+    <section id="handlers">
+        <h2>Handlers</h2>
+        <p>Handlers manage interactions between modules and volumes. Examples include:</p>
+
+        <pre><code>GetImgMeta(const char *request)</code></pre>
+        <p>Retrieves image metadata from client requests.</p>
+
+        <pre><code>pVolImgWrite(ImageMeta *src)</code></pre>
+        <p>Writes images to persistent storage.</p>
+    </section>
+
+    <section id="database">
+        <h2>Database</h2>
+        <p>The system employs a dual-layer database architecture:</p>
+
+        <h3>mDatabase</h3>
+        <p>Memory-based key-value store for fast access.</p>
+
+        <h3>pDatabase</h3>
+        <p>Persistent SQLite3-based storage for reliability.</p>
+
+        <p>The database manages:</p>
+        <ul>
+            <li>Image metadata</li>
+            <li>System configurations</li>
+            <li>Module caching</li>
+        </ul>
+    </section>
+
+    <section id="developer-log">
+        <h2>Developer Log</h2>
+
+        <h3>ImageMeta Structure</h3>
+        <pre><code>#define AddrTypePVol 0
+#define AddrTypeEVol 1
+#define AddrTypeMVol 2
+
+typedef char AddrType;
+
+typedef struct ImageMeta {
+    AddrType addrType;
+    char *imgAddr;
+    char *ext;
+} ImageMeta;</code></pre>
+    </section>
+
+    <footer>
+        <p>© 2023 ImageServer Project | Documentation v1.0</p>
+    </footer>
+</body>
+
+</html>

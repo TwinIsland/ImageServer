@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "epoll.h": "c",
+        "stdio.h": "c",
+        "log.h": "c",
+        "unistd.h": "c",
+        "common.h": "c",
+        "typeinfo": "c",
+        "module.h": "c",
+        "algorithm": "c"
+    }
+}
