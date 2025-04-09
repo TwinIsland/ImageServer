@@ -14,6 +14,17 @@ typedef struct
     sqlite3 *memory_db;
 } DatabaseManager;
 
+// enum IsPathType {
+//     IsPathPVol,
+//     IsPathEVol,
+//     IsPathMVol,
+// };
+
+// typedef struct {
+//     enum IsPathType type;
+//     const char *path;
+// } IsPath;
+
 extern volatile struct SystemState SYSTEM_STATE;
 extern DatabaseManager db;
 

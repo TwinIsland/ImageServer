@@ -53,7 +53,7 @@ int pipeline_load()
         void *handler = dlopen(module_path, RTLD_LAZY);
         if (!handler)
         {
-            log_error("Failed to load module '%s': %s\n", CONFIG_PIPELINE[i], dlerror());
+            log_error("Failed to load module: %s", dlerror());
             pipeline_unload();
             return 0;
         }
@@ -63,8 +63,7 @@ int pipeline_load()
 
         if (!ModuleCallFunc || !moduleConfig)
         {
-            log_error("Module '%s' doesn't export required symbols: %s\n",
-                      CONFIG_PIPELINE[i], dlerror());
+            log_error("Module doesn't export required symbols: %s\n", dlerror());
             dlclose(handler);
             pipeline_unload();
             return 0;
@@ -104,7 +103,33 @@ void pipeline_unload()
     module_count = 0;
 }
 
-// int pipline_run(struct mg_http_message *hm)
-// {
+const char *pipline_run(struct mg_http_message *hm)
+{
+    ModuleMsg cur_msg = (ModuleMsg) {
+        .input_type = MODULE_INP_TYPE_STR,
+        .status = MODULE_STATUS_OK,
+        .opt_msg = "",
+    };
+    strncpy(cur_msg.data.str, hm->uri.buf, hm->uri.len);
+    
+    for (int i = 0; i < CONFIG_PIPELINE_SIZE; ++i) {
+        struct lModule *cur_module = &Pipeline[i];
+        cur_msg = cur_module->ModuleCallFunc(&cur_msg);
+        
+        if (cur_msg.status == MODULE_STATUS_WARN) {
+            log_warn("module '%s' warning: %s", cur_module->module.name, cur_msg.opt_msg);
+        }
+        else if (cur_msg.status == MODULE_STATUS_ERR) {
+            log_error("module '%s' error: %s", cur_module->module.name, cur_msg.opt_msg);
+            return NULL;
+        }
+        log_info("module' %s' done\t%s", cur_module->module.name, cur_msg.opt_msg);        
+    }
 
-// }
+    if (cur_msg.input_type != MODULE_INP_TYPE_STR) {
+        log_error("invalid tail module message type");
+        return NULL;
+    }
+
+    return strdup(cur_msg.data.str);
+}

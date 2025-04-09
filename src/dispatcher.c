@@ -7,6 +7,8 @@
 #include "utils.h"
 #include "CONFIG.h"
 #include "common.h"
+#include "pipeline.h"
+#include "handlers.h"
 
 #define URI_CAPS_MAX_BUFF 512
 
@@ -23,13 +25,26 @@ static void fn(struct mg_connection *c, int ev, void *ev_data)
         {
             mg_http_serve_file(c, hm, "assets/info.html", &dummy_opts);
         }
-        if (mg_match(hm->uri, mg_str("/img/#"), caps))
+        else if (mg_match(hm->uri, mg_str("/img/#"), caps))
         {
             log_trace("accessing file %.*s", caps->len, caps->buf);
             
-            mg_http_reply(c, 200, "", "{%m:%d}\n", MG_ESC("status"), 1);
+            const char *processed_img_ispath = pipline_run(hm);
+
+            if (!processed_img_ispath) {
+                mg_http_reply(c, 400, "", "bad request parameter, pipline failed");
+                return;
+            }
+
+            const char *processed_img_path = handler_parse_IsPath(processed_img_ispath);
+            free((char *)processed_img_ispath);
+
+            // log_debug("%s", processed_img_path);
+
+            mg_http_serve_file(c, hm, processed_img_path, &dummy_opts);
+            free((char *)processed_img_path);
         }
-        if (mg_match(hm->uri, mg_str("/assets/*"), NULL))
+        else if (mg_match(hm->uri, mg_str("/assets/*"), NULL))
         {
             static const struct mg_http_serve_opts assets_opts = {.root_dir = "/assets=assets"};
             mg_http_serve_dir(c, hm, &assets_opts);
