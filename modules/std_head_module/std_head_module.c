@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include "module.h"
+#include "mongoose.h"
 
 // Define module config
 Module ModuleConfig = {
@@ -19,7 +20,10 @@ __attribute__((destructor)) void _module_exit()
 
 __attribute__((unused)) ModuleMsg _module_call(ModuleMsg *input)
 {
-    module_printf("hi, I receive: %s", input->data.str);
+    module_printf("hi, I receive: %p", input->data.ptr);
+
+    struct mg_http_message* hm = (struct mg_http_message *)input->data.ptr;
+    module_printf("uri is: %.*s", hm->uri.len, hm->uri.buf);
 
     ModuleMsg msg = (ModuleMsg){
         .input_type = MODULE_INP_TYPE_STR,

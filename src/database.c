@@ -171,3 +171,4 @@ sqlite3 *execute_sql_file(const char *sql_path, const char *db_path)
 
     return db;
 }
+

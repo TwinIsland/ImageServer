@@ -18,6 +18,7 @@ enum ModuleInputType
     MODULE_INP_TYPE_INT,
     MODULE_INP_TYPE_FLOAT,
     MODULE_INP_TYPE_STR,
+    MODULE_INP_TYPE_PTR,
 };
 
 enum ModuleStatus
@@ -43,6 +44,7 @@ typedef struct
         int i;
         float f;
         char str[ModuleInputBufMax];
+        void *ptr;
     } data;
     enum ModuleStatus status;
     char opt_msg[ModuleInputBufMax];

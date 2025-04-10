@@ -8,6 +8,14 @@
         "typeinfo": "c",
         "module.h": "c",
         "algorithm": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "errno.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "arena.h": "c",
+        "cstdlib": "c",
+        "compare": "c",
+        "cstdint": "c"
     }
 }

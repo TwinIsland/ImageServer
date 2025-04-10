@@ -2,13 +2,12 @@ CREATE TABLE images (
     image_id INTEGER PRIMARY KEY AUTOINCREMENT,
     original_id INTEGER, -- NULL for originals, references image_id for processed versions
     file_name TEXT NOT NULL,
-    file_path TEXT NOT NULL, -- Storage path relative to root
+    file_impath TEXT NOT NULL,
     file_size INTEGER NOT NULL,
-    file_type TEXT NOT NULL CHECK(file_type IN ('original', 'watermarked', 'compressed', 'thumbnail')),
     mime_type TEXT NOT NULL, -- e.g., 'image/jpeg', 'image/png'
     width INTEGER NOT NULL,
     height INTEGER NOT NULL,
-    md5_hash TEXT NOT NULL, -- For duplicate detection
+    -- md5_hash TEXT NOT NULL, -- For duplicate detection
     processing_params TEXT, -- JSON string of processing parameters if processed
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_accessed TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

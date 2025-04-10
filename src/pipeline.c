@@ -107,10 +107,10 @@ const char *pipline_run(struct mg_http_message *hm)
 {
     ModuleMsg cur_msg = (ModuleMsg) {
         .input_type = MODULE_INP_TYPE_STR,
+        .data.ptr = hm,
         .status = MODULE_STATUS_OK,
         .opt_msg = "",
     };
-    strncpy(cur_msg.data.str, hm->uri.buf, hm->uri.len);
     
     for (int i = 0; i < CONFIG_PIPELINE_SIZE; ++i) {
         struct lModule *cur_module = &Pipeline[i];

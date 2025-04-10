@@ -28,4 +28,6 @@ typedef struct
 extern volatile struct SystemState SYSTEM_STATE;
 extern DatabaseManager db;
 
-#define PATH_BUFFER_SIZE 512
+#define PATH_BUFFER_SIZE 128
+#define FILENAME_BUFFER_SIZE 64
+#define EXT_BUFFER_SIZE 32
