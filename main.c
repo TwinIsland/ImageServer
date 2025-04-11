@@ -11,6 +11,9 @@
 #include "database.h"
 #include "common.h"
 
+#include "webp/decode.h"
+#include "webp/encode.h"
+
 DatabaseManager db;
 volatile struct SystemState SYSTEM_STATE = {
     .is_running = 1,
@@ -43,10 +46,16 @@ int main()
     }
     log_info("pipline initialized!");
 
+    int version_int = WebPGetEncoderVersion();
+    int major = (version_int >> 16) & 0xFF;
+    int minor = (version_int >> 8) & 0xFF;
+    int revision = version_int & 0xFF;
+    log_info("load libwebp version: 'v%d.%d.%d'", major, minor, revision);
+
     log_info("initialize system state");
     start_dispatcher_loop();
 
     // do cleanup
-    pipeline_unload(); 
+    pipeline_unload();
     log_info("bye!");
 }

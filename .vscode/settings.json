@@ -16,6 +16,7 @@
         "arena.h": "c",
         "cstdlib": "c",
         "compare": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "decode.h": "c"
     }
 }

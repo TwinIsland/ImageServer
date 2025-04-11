@@ -31,7 +31,7 @@ __attribute__((unused)) ModuleMsg _module_call(ModuleMsg *input)
         .opt_msg = "",
     };
 
-    strcpy(msg.data.str, "hello from head module");
+    strcpy(msg.data.str, "assets/sample.webp");
 
     return msg;
 }

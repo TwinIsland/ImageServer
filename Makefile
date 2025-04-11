@@ -1,7 +1,7 @@
 # Compiler and flags
 CC := gcc
 CFLAGS := -Wall -Wextra -I./ -Iincludes
-LDFLAGS := -Wl,--export-dynamic -L./libs -lpthread -ldl -lm
+LDFLAGS := -Wl,--export-dynamic -L./libs -lpthread -ldl -lm -lwebp
 
 # Directories
 SRC_DIR := .

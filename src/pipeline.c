@@ -63,7 +63,7 @@ int pipeline_load()
 
         if (!ModuleCallFunc || !moduleConfig)
         {
-            log_error("Module doesn't export required symbols: %s\n", dlerror());
+            log_error("Module doesn't export required symbols: %s", dlerror());
             dlclose(handler);
             pipeline_unload();
             return 0;

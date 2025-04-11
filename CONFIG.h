@@ -26,7 +26,9 @@
 
 static const char *const CONFIG_PIPELINE[] = {
     "std_head_module.ismod",
-    "std_tail_module.ismod"};
+    "webp_compress_module.ismod",
+    "std_tail_module.ismod",
+};
 
 /**
  *
